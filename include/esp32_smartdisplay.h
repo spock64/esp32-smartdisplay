@@ -3,7 +3,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <lvgl.h>
-#ifdef ESP32_3248S035C
+#if defined(ESP32_3248S035C) || (ESP32_2432S032C)
 #include <Wire.h>
 #endif
 
@@ -111,8 +111,36 @@ extern SPIClass spi_st7796;
 #define GT911_IIC_SDA 33
 #define GT911_IIC_SCL 32
 #define GT911_IIC_RST 25
+#define GT911_IIC_INT 21
+
 
 extern SPIClass spi_st7796;
+extern TwoWire i2c_gt911;
+#endif
+
+#ifdef ESP32_2432S032C
+#define TFT_WIDTH 240
+#define TFT_HEIGHT 320
+#define ST7789
+#define ST7789_SPI_SCLK 14
+#define ST7789_SPI_MOSI 13
+#define ST7789_SPI_MISO 12
+#define ST7789_PIN_CS 15
+#define ST7789_PIN_DC 2
+#define ST7789_SPI_FREQ 80000000
+#define ST7789_PIN_BL 27
+#define ST7789_PWM_CHANNEL_BL 12
+#define ST7789_PWM_FREQ_BL 5000
+#define ST7789_PWM_BITS_BL 8
+#define ST7789_PWM_MAX_BL ((1 << ST7789_PWM_BITS_BL) - 1)
+#define GT911
+#define GT911_IIC_SDA 33
+#define GT911_IIC_SCL 32
+#define GT911_IIC_RST 25
+#define GT911_IIC_INT 21
+
+
+extern SPIClass spi_st7789;
 extern TwoWire i2c_gt911;
 #endif
 
