@@ -10,7 +10,7 @@ extern void lvgl_tft_flush(lv_disp_drv_t *drv, const lv_area_t *area, lv_color_t
 extern void lvgl_touch_init();
 extern void lvgl_touch_read(lv_indev_drv_t *drv, lv_indev_data_t *data);
 
-#if !defined(ESP32_2432S028R) && !defined(ESP32_3248S035R) && !defined(ESP32_3248S035C)
+#if !defined(ESP32_2432S028R) && !defined(ESP32_3248S035R) && !defined(ESP32_3248S035C) && !defined(ESP32_2432S032C)
 #error Please define type: ESP32_2432S028R, ESP32_3248S035R or ESP32_3248S035C
 #endif
 
@@ -26,6 +26,11 @@ SPIClass spi_st7796;
 
 #ifdef ESP32_3248S035C
 SPIClass spi_st7796;
+TwoWire i2c_gt911 = TwoWire(1); // Bus number 1
+#endif
+
+#ifdef ESP32_2432S032C
+SPIClass spi_st7789; // This one is ST7789 ...
 TwoWire i2c_gt911 = TwoWire(1); // Bus number 1
 #endif
 
@@ -80,11 +85,15 @@ void smartdisplay_init()
   // xpy2046 uses same SPI bus
 #endif
 
-#ifdef ESP32_3248S035C
+#if defined(ESP32_3248S035C)
   spi_st7796.begin(ST7796_SPI_SCLK, ST7796_SPI_MISO, ST7796_SPI_MOSI);
   i2c_gt911.begin(GT911_IIC_SDA, GT911_IIC_SCL);
 #endif
 
+#if defined(ESP32_2432S032C)
+  spi_st7789.begin(ST7789_SPI_SCLK, ST7789_SPI_MISO, ST7789_SPI_MOSI);
+  i2c_gt911.begin(GT911_IIC_SDA, GT911_IIC_SCL);
+#endif
   // Setup TFT display
   lvgl_tft_init();
   static lv_disp_draw_buf_t draw_buf;
@@ -99,6 +108,9 @@ void smartdisplay_init()
   disp_drv.ver_res = TFT_HEIGHT;
 #else
 #if defined(TFT_ORIENTATION_LANDSCAPE) || defined(TFT_ORIENTATION_LANDSCAPE_INV)
+  // PJR
+  // But this ends up with the touch input not working !
+  // How can this be wrong?
   disp_drv.hor_res = TFT_HEIGHT;
   disp_drv.ver_res = TFT_WIDTH;
 #else
@@ -111,6 +123,9 @@ void smartdisplay_init()
 
   // Clear screen
   lv_obj_clean(lv_scr_act());
+
+  //lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
+
 
   // Setup touch
   lvgl_touch_init();

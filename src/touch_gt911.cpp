@@ -1,5 +1,7 @@
 #include <esp32_smartdisplay.h>
 
+// PJR - Needs to understand ST7789 inversion !
+
 #ifdef GT911
 
 #define GT911_I2C_SLAVE_ADDR 0x5D
@@ -85,6 +87,9 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
     return false;
   }
 
+  log_d("Raw Touch: (x=%d,y=%d)", points[0].x, points[0].y);
+
+
 #ifdef TFT_ORIENTATION_PORTRAIT
   for (uint8_t i = 0; i < numPoints; ++i)
   {
@@ -109,12 +114,22 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
   }
 #else
 #ifdef TFT_ORIENTATION_LANDSCAPE_INV
+  // PJR - this may need to depend on the actual device too?
+  // Why is this different on my Sunton vs the author's ?
+  // It seems this does not work as the WIDTH / HEIGHT are swapped in LVGL ??
+  
   uint16_t swap;
   for (uint8_t i = 0; i < numPoints; ++i)
   {
-    swap = points[i].x;
-    points[i].x = TFT_HEIGHT - points[i].y;
-    points[i].y = swap;
+    // PJR - 
+    // swap = points[i].x;
+    // points[i].x = TFT_HEIGHT - points[i].y;
+    // points[i].y = swap;
+    // points[i].x = points[i].x;
+    points[i].x = TFT_HEIGHT - points[i].x;
+    points[i].y = points[i].y;
+
+
   }
 #else
 #error TFT_ORIENTATION not defined!
@@ -127,6 +142,24 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
 
 void lvgl_touch_init()
 {
+  // i2c_gt911.begin(GT911_IIC_SDA , GT911_IIC_SCL );
+
+  // // PJR - should RESET first ... ?
+  // pinMode(GT911_IIC_INT, OUTPUT);
+  // pinMode(GT911_IIC_RST, OUTPUT);
+  // digitalWrite(GT911_IIC_INT, 0);
+  // digitalWrite(GT911_IIC_RST, 0);
+  // delay(10);
+  // digitalWrite(GT911_IIC_INT, 1); // from I2C address ... addr==GT911_ADDR2);
+  // delay(1);
+  // digitalWrite(GT911_IIC_RST, 1);
+  // delay(5);
+  // digitalWrite(GT911_IIC_INT, 0);
+  // delay(50);
+  // pinMode(GT911_IIC_INT, INPUT);
+  // // attachInterrupt(pinInt, TAMC_GT911::onInterrupt, RISING);
+  // delay(50);
+
   uint8_t productId[GT911_PRODUCT_ID_LEN];
   if (!gt911_read_register(GT911_PRODUCT_ID1, productId, GT911_PRODUCT_ID_LEN))
   {
