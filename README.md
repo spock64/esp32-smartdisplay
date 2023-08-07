@@ -1,4 +1,5 @@
-# ESP32-SmartDisplay - now with ESP32-
+# ESP32-SmartDisplay - now with ESP32-2432S032C and ST7789
+# Modified by PJR
 
 [![Platform IO CI](https://github.com/rzeldent/esp32-smartdisplay/actions/workflows/main.yml/badge.svg)](https://github.com/rzeldent/esp32-smartdisplay/actions/workflows/main.yml)
 
