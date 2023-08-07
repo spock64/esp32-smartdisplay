@@ -1,4 +1,4 @@
-# ESP32-SmartDisplay
+# ESP32-SmartDisplay - now with ESP32-
 
 [![Platform IO CI](https://github.com/rzeldent/esp32-smartdisplay/actions/workflows/main.yml/badge.svg)](https://github.com/rzeldent/esp32-smartdisplay/actions/workflows/main.yml)
 
