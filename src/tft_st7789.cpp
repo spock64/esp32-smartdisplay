@@ -80,6 +80,22 @@ void ST7789_send_pixels(const uint8_t command, const lv_color_t data[], const us
   spi_st7789.endTransaction();
 }
 
+#define CMD_RAMCTRL		0xB0  
+#define CMD_PORCTRL		0xB2
+#define CMD_GCTRL		0xB7
+#define CMD_VCOMS		0xBB
+#define CMD_LCMCTRL		0xC0
+#define CMD_VDVVRHEN		0xC2
+#define CMD_VRHS			0xC3
+#define CMD_VDVSET		0xC4 
+#define CMD_CASET		0x2A
+#define CMD_FRCTR2		0xC6
+#define CMD_PWCTRL1		0xD0
+#define CMD_PVGAMCTRL	0xE0
+#define CMD_NVGAMCTRL	0xE1
+#define CMD_INVON		0x21
+
+
 void ST7789_send_init_commands()
 {
   ST7789_send_command(CMD_SWRESET); // Software reset
@@ -112,47 +128,47 @@ static const uint8_t cmd_ramctrl = {0x00, 0xE0};
   //writedata(0x00);
   //writedata(0xE0); // 5 to 6 bit conversion: r0 = r5, b0 = b5
 
-  ST7789_send_command(CMD_COLMOD, {0x55], 1);
+  ST7789_send_command(CMD_COLMOD, {0x55}, 1);
   //writedata(0x55);
   delay(10);
 
   //--------------------------------ST7789V Frame rate setting----------------------------------//
-  ST7789_send_command(CMD_PORCTRL, {0x0c, 0x0c, 0x00, 0x33, 0x35], 5);
+  ST7789_send_command(CMD_PORCTRL, {0x0c, 0x0c, 0x00, 0x33, 0x35}, 5);
   // writedata(0x0c);
   // writedata(0x0c);
   // writedata(0x00);
   // writedata(0x33);
   // writedata(0x33);
 
-  ST7789_send_command(CMD_GCTRL, {0x35], 1);      // Voltages: VGH / VGL
+  ST7789_send_command(CMD_GCTRL, {0x35}, 1);      // Voltages: VGH / VGL
   //writedata(0x35);
 
   //---------------------------------ST7789V Power setting--------------------------------------//
-  ST7789_send_command(CMD_VCOMS, {0x28], 1);
+  ST7789_send_command(CMD_VCOMS, {0x28}, 1);
   //writedata(0x28);		// JLX240 display datasheet
 
-  ST7789_send_command(CMD_LCMCTRL, {0x0c], 1);
+  ST7789_send_command(CMD_LCMCTRL, {0x0c}, 1);
   //writedata(0x0C);
 
-  ST7789_send_command(CMD_VDVVRHEN, {0x01, 0xFF], 2);
+  ST7789_send_command(CMD_VDVVRHEN, {0x01, 0xFF}, 2);
   // writedata(0x01);
   // writedata(0xFF);
 
-  ST7789_send_command(CMD_VRHS, {0x10], 1);       // voltage VRHS
+  ST7789_send_command(CMD_VRHS, {0x10}, 1);       // voltage VRHS
   //writedata(0x10);
 
-  ST7789_send_command(CMD_VDVSET, {0x20], 1);
+  ST7789_send_command(CMD_VDVSET, {0x20}, 1);
   //writedata(0x20);
 
-  ST7789_send_command(CMD_FRCTR2, {0x0f], 1);
+  ST7789_send_command(CMD_FRCTR2, {0x0f}, 1);
   //writedata(0x0f);
 
-  ST7789_send_command(CMD_PWCTRL1, {0xa4, 0xa1], 2);
+  ST7789_send_command(CMD_PWCTRL1, {0xa4, 0xa1}, 2);
   // writedata(0xa4);
   // writedata(0xa1);
 
   //--------------------------------ST7789V gamma setting---------------------------------------//
-  ST7789_send_command(CMD_PVGAMCTRL, {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x32, 0x44, 0x42, 0x06, 0x12, 0x14, 0x17], 14);
+  ST7789_send_command(CMD_PVGAMCTRL, {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x32, 0x44, 0x42, 0x06, 0x12, 0x14, 0x17}, 14);
   // writedata(0xd0);
   // writedata(0x00);
   // writedata(0x02);
@@ -168,7 +184,7 @@ static const uint8_t cmd_ramctrl = {0x00, 0xE0};
   // writedata(0x14);
   // writedata(0x17);
 
-  ST7789_send_command(CMD_NVGAMCTRL, {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x31, 0x54, 0x47, 0x0e, 0x1c, 0x17, 0x1b, 0x1e], 14);
+  ST7789_send_command(CMD_NVGAMCTRL, {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x31, 0x54, 0x47, 0x0e, 0x1c, 0x17, 0x1b, 0x1e}, 14);
   // writedata(0xd0);
   // writedata(0x00);
   // writedata(0x02);
@@ -186,13 +202,13 @@ static const uint8_t cmd_ramctrl = {0x00, 0xE0};
 
   ST7789_send_command(CMD_INVON);
 
-  ST7789_send_command(CMD_CASET, {0x00, 0x00, 0x00, 0xef], 4);    // Column address set
+  ST7789_send_command(CMD_CASET, {0x00, 0x00, 0x00, 0xef}, 4);    // Column address set
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0xEF);    // 239
 
-  ST7789_send_command(CMD_RASET, {0x00, 0x00, 0x01, 0x3f]);    // Row address set
+  ST7789_send_command(CMD_RASET, {0x00, 0x00, 0x01, 0x3f}, 4);    // Row address set
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0x01);
