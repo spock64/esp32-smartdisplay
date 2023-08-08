@@ -114,7 +114,7 @@ void ST7789_send_init_commands()
 
   //------------------------------display and color format setting--------------------------------//
 
-  static const uint8_t cmd_madctl[] = {0x00};
+  static const uint8_t cmd_madctl[] = {0x08}; // 0=rgb, 8=bgr
   ST7789_send_command(CMD_MADCTL, cmd_madctl, 1);
 
   //  JLX240 display datasheet
