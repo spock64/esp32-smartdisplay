@@ -126,8 +126,9 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
     // points[i].x = TFT_HEIGHT - points[i].y;
     // points[i].y = swap;
     // points[i].x = points[i].x;
-    points[i].x = TFT_WIDTH - points[i].y;
-    points[i].y = points[i].x;
+    points[i].x = points[i].y;
+    points[i].y = TFT_WIDTH - points[i].x;
+   log_d("Raw alterred to: (x=%d,y=%d)", points[0].x, points[0].y);
 
 
   }
