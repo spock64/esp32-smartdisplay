@@ -236,15 +236,6 @@ static uint8_t cmd_raset[] = {0x00, 0x00, 0x01, 0x3f};
   ST7789_send_command(CMD_DISPON);    //Display on
   delay(120);
 
-
-#ifdef TFT_INVERSION_ON
-  ST7789_send_command(TFT_INVON);
-#endif
-
-#ifdef TFT_INVERSION_OFF
-  ST7789_send_command(TFT_INVOFF);
-#endif
-
   //setRotation(rotation);
   //(TFT_MAD_MV | TFT_MAD_MY | TFT_MAD_COLOR_ORDER);
   #define MAD_COLOR_ORDER
@@ -254,7 +245,7 @@ static uint8_t cmd_raset[] = {0x00, 0x00, 0x01, 0x3f};
 
 
   // Needed ?
-  ST7789_send_command(CMD_INVON); // Inversion off
+  ST7789_send_command(CMD_INVOFF); // Inversion off
   ST7789_send_command(CMD_NORON);  // Normal display on
   ST7789_send_command(CMD_SLPOUT); // Out of sleep mode
   ST7789_send_command(CMD_DISPON); // Main screen turn on
