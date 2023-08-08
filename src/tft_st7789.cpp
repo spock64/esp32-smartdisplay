@@ -162,7 +162,7 @@ static uint8_t cmd_lcmctrl[] = {0x0c};
 
 static uint8_t cmd_vrhs[] = {0x10};
 
-  ST7789_send_command(CMD_VRHS, (cmd_vrhs, 1);       // voltage VRHS
+  ST7789_send_command(CMD_VRHS, cmd_vrhs, 1);       // voltage VRHS
   //writedata(0x10);
 
 static uint8_t cmd_vdvset[] = {0x20};
