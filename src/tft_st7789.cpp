@@ -134,42 +134,52 @@ static const uint8_t cmd_colmod[] = {0x55};
   delay(10);
 
   //--------------------------------ST7789V Frame rate setting----------------------------------//
-  static const uint8_t cmd_porctl[] = {0x0c, 0x0c, 0x00, 0x33, 0x35};`
-  ST7789_send_command(CMD_PORCTRL, (const uinit8_t*) {0x0c, 0x0c, 0x00, 0x33, 0x35}, 5);
+  static const uint8_t cmd_porctl[] = {0x0c, 0x0c, 0x00, 0x33, 0x35};
+  ST7789_send_command(CMD_PORCTRL, cmd_porctl, 5);
   // writedata(0x0c);
   // writedata(0x0c);
   // writedata(0x00);
   // writedata(0x33);
   // writedata(0x33);
 
-  ST7789_send_command(CMD_GCTRL, (const uinit8_t*) {0x35}, 1);      // Voltages: VGH / VGL
+static const uint8_t cmd_gctrl[] = {0x35};
+  ST7789_send_command(CMD_GCTRL, cmd_gctrl, 1);      // Voltages: VGH / VGL
   //writedata(0x35);
 
   //---------------------------------ST7789V Power setting--------------------------------------//
-  ST7789_send_command(CMD_VCOMS, (const uinit8_t*) {0x28}, 1);
+  static uint8_t cmd_vcoms[] = {0x28};
+  ST7789_send_command(CMD_VCOMS, cmd_vcoms, 1);
   //writedata(0x28);		// JLX240 display datasheet
 
-  ST7789_send_command(CMD_LCMCTRL, (const uinit8_t*) {0x0c}, 1);
+static uint8_t cmd_lcmctrl[] = {0x0c};
+  ST7789_send_command(CMD_LCMCTRL, cmd_lcmctrl , 1);
   //writedata(0x0C);
 
-  ST7789_send_command(CMD_VDVVRHEN, (const uinit8_t*) {0x01, 0xFF}, 2);
+  static uint8_t cmd_vdvvrhen[] = {0x01, 0xFF};
+  ST7789_send_command(CMD_VDVVRHEN, cmd_vdvvrhen , 2);
   // writedata(0x01);
   // writedata(0xFF);
 
-  ST7789_send_command(CMD_VRHS, (const uinit8_t*) {0x10}, 1);       // voltage VRHS
+static uint8_t cmd_vrhs[] = {0x10};
+
+  ST7789_send_command(CMD_VRHS, (cmd_vrhs, 1);       // voltage VRHS
   //writedata(0x10);
 
-  ST7789_send_command(CMD_VDVSET, (const uinit8_t*) {0x20}, 1);
+static uint8_t cmd_vdvset[] = {0x20};
+  ST7789_send_command(CMD_VDVSET, cmd_vdvset , 1);
   //writedata(0x20);
 
-  ST7789_send_command(CMD_FRCTR2, (const uinit8_t*) {0x0f}, 1);
+static uint8_t cmd_frctr2[] = {0x0f};
+  ST7789_send_command(CMD_FRCTR2, cmd_frctr2 , 1);
   //writedata(0x0f);
 
-  ST7789_send_command(CMD_PWCTRL1, (const uinit8_t*) {0xa4, 0xa1}, 2);
+static uint8_t cmd_pwctrl1[] =  {0xa4, 0xa1};
+  ST7789_send_command(CMD_PWCTRL1, cmd_pwctrl1, 2);
   // writedata(0xa4);
   // writedata(0xa1);
 
-  ST7789_send_command(CMD_PVGAMCTRL, (const uinit8_t*) {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x32, 0x44, 0x42, 0x06, 0x12, 0x14, 0x17}, 14);
+static uint8_t cmd_pvgamctrl[] = {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x32, 0x44, 0x42, 0x06, 0x12, 0x14, 0x17};
+  ST7789_send_command(CMD_PVGAMCTRL, cmd_pvgamctrl , 14);
   //--------------------------------ST7789V gamma setting---------------------------------------//
   // writedata(0xd0);
   // writedata(0x00);
@@ -186,7 +196,8 @@ static const uint8_t cmd_colmod[] = {0x55};
   // writedata(0x14);
   // writedata(0x17);
 
-  ST7789_send_command(CMD_NVGAMCTRL, (const uinit8_t*) {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x31, 0x54, 0x47, 0x0e, 0x1c, 0x17, 0x1b, 0x1e}, 14);
+  static uint8_t cmd_nvgamctrl[] = {0xd0, 0x00, 0x02, 0x07, 0x0a, 0x28, 0x31, 0x54, 0x47, 0x0e, 0x1c, 0x17, 0x1b, 0x1e};
+ST7789_send_command(CMD_NVGAMCTRL, cmd_nvgamctrl , 14);
   // writedata(0xd0);
   // writedata(0x00);
   // writedata(0x02);
@@ -204,13 +215,15 @@ static const uint8_t cmd_colmod[] = {0x55};
 
   ST7789_send_command(CMD_INVON);
 
-  ST7789_send_command(CMD_CASET, (const uinit8_t*) {0x00, 0x00, 0x00, 0xef}, 4);    // Column address set
+static uint8_t cmd_caset[] = {0x00, 0x00, 0x00, 0xef};
+  ST7789_send_command(CMD_CASET, cmd_caset , 4);    // Column address set
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0xEF);    // 239
 
-  ST7789_send_command(CMD_RASET, (const uinit8_t*) {0x00, 0x00, 0x01, 0x3f}, 4);    // Row address set
+static uint8_t cmd_raset[] = {0x00, 0x00, 0x01, 0x3f};
+  ST7789_send_command(CMD_RASET, cmd_raset , 4);    // Row address set
   // writedata(0x00);
   // writedata(0x00);
   // writedata(0x01);
@@ -235,10 +248,10 @@ static const uint8_t cmd_colmod[] = {0x55};
   //setRotation(rotation);
 
   // Needed ?
-  // ST7789_send_command(CMD_INVOFF); // Inversion off
-  // ST7789_send_command(CMD_NORON);  // Normal display on
-  // ST7789_send_command(CMD_SLPOUT); // Out of sleep mode
-  // ST7789_send_command(CMD_DISPON); // Main screen turn on
+  ST7789_send_command(CMD_INVOFF); // Inversion off
+  ST7789_send_command(CMD_NORON);  // Normal display on
+  ST7789_send_command(CMD_SLPOUT); // Out of sleep mode
+  ST7789_send_command(CMD_DISPON); // Main screen turn on
 
 }
 
