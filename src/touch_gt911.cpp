@@ -97,7 +97,8 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
     points[i].y = TFT_HEIGHT - points[i].y;
   }
 #else
-#ifdef TFT_ORIENTATION_LANDSCAPE
+// Kludge ... assume we are in landscape mode ...
+#if defined(TFT_ORIENTATION_LANDSCAPE) || defined (ESP32_2432S032C)
   uint16_t swap;
   for (uint8_t i = 0; i < numPoints; ++i)
   {
@@ -116,21 +117,16 @@ bool gt911_read_touches(GTPoint *points, uint8_t numPoints = GT911_MAX_CONTACTS)
 #ifdef TFT_ORIENTATION_LANDSCAPE_INV
   // PJR - this may need to depend on the actual device too?
   // Why is this different on my Sunton vs the author's ?
-  // It seems this does not work as the WIDTH / HEIGHT are swapped in LVGL ??
+  // Need to make this compile time configurable
+  // So it is actually TFT_ORIENTATION_LANDSCAPE that is needed ...
+  // Something wrong with the Display driver?
   
   uint16_t swap;
   for (uint8_t i = 0; i < numPoints; ++i)
   {
-    // PJR - 
-    // points[i].x = TFT_HEIGHT - points[i].y;
-    // points[i].y = swap;
-    // points[i].x = points[i].x;
     swap = points[i].x;
-    points[i].x = points[i].y;
-    points[i].y = TFT_WIDTH - swap;
-   log_d("Raw alterred to: (x=%d,y=%d)", points[0].x, points[0].y);
-
-
+    points[i].x = TFT_HEIGHT - points[i].y;
+    points[i].y = swap;
   }
 #else
 #error TFT_ORIENTATION not defined!
