@@ -246,6 +246,11 @@ static uint8_t cmd_raset[] = {0x00, 0x00, 0x01, 0x3f};
 #endif
 
   //setRotation(rotation);
+  //(TFT_MAD_MV | TFT_MAD_MY | TFT_MAD_COLOR_ORDER);
+  static const uint8_t madctl[] = {MADCTL_MX | MADCTL_MV | MADCTL_PANEL_ORDER}; // Landscape inverted 270 Degrees
+  ST7789_send_command(CMD_MADCTL, madctl, sizeof(madctl));
+
+
 
   // Needed ?
   ST7789_send_command(CMD_INVOFF); // Inversion off
